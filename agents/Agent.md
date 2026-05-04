@@ -17,20 +17,22 @@ permission:
     "Docs-updater": allow
   bash:
     "*": ask
-    "ls *": allow
+    "ls": allow
     "pwd": allow
-    "rg *": allow
-    "grep *": allow
-    "fd *": allow
-    "find *": allow
-    "cat *": allow
-    "git status*": allow
-    "git diff*": allow
-    "git log*": allow
-    "rm *": ask
-    "rmdir *": ask
-    "> *": ask
-    "tee *": ask
+    "rg": allow
+    "grep": allow
+    "fd": allow
+    "find": allow
+    "cat": allow
+    "head": allow
+    "tail": allow
+    "git": allow
+    "rm": ask
+    "rmdir": ask
+    "mv": ask
+    "cp": ask
+    ">": ask
+    "tee": ask
   webfetch: allow
   websearch: allow
   question: allow
@@ -200,6 +202,12 @@ permission:
 
   <rule id="bash_gate" scope="bash_execution">
     Bash wykonuj bez pytania zgodnie z listą allow w permissionach. Przed każdą komendą destruktywną (rm, rmdir, nadpisanie pliku przez >, tee) — zatrzymaj się i zapytaj użytkownika o potwierdzenie. Nie traktuj żadnej operacji destruktywnej jako "oczywistej".
+    
+    **Notka o permissionach bash:** Format permisji to prefixy poleceń bez gwiazdek (np. `grep` zamiast `grep *`). 
+    Pozwala to na:
+    - Automatyczne zezwolenie na `grep "pattern" file` bez pytania (bo prefiks `grep` jest w allow)
+    - Automatyczne pytanie na `rm file` (bo jest w ask)
+    - Brak pytań dla poleceń execute w poprawnym workdir (OpenCode wie że to bezpieczne)
   </rule>
 
   <rule id="smart_error_fix" scope="error_handling">
